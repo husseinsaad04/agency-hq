@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Saad HQ">
+  <meta name="theme-color" content="#08121b">
+  <meta name="ahq-nonce" content="__NONCE__">
+  <meta name="ahq-boot" content="__BOOT__">
+  <title>Saad Headquarters</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="logo" aria-label="Saad Headquarters">SAAD HEADQUARTERS</div>
+    <div id="counts" class="counts" aria-live="polite"></div>
+    <div id="studio" class="studio" title="Studio level: all agents combined. XP comes only from verified results."></div>
+    <nav class="tabs" aria-label="View">
+      <button id="tabOffice" class="tab" type="button" aria-pressed="true">Headquarters</button>
+      <button id="tabRoster" class="tab" type="button" aria-pressed="false">Systems</button>
+      <button id="tabPaperclip" class="tab" type="button" aria-pressed="false">People</button>
+      <button id="tabCompany" class="tab" type="button" aria-pressed="false">Workflows & memory</button>
+      <button id="tabTasks" class="tab" type="button" aria-pressed="false">Assignments</button>
+      <button id="tabLab" class="tab" type="button" aria-pressed="false">Lab</button>
+    </nav>
+    <div id="conn" class="conn" role="status">connecting…</div>
+  </header>
+
+  <main>
+    <div id="officeView" class="tower-view">
+      <div class="hq-hero"><div><p class="eyebrow">YOUR COMPANY / COMMAND CENTER</p><h1>Saad Headquarters.</h1><p class="hero-note">Your company, brought to life. Explore every floor. Direct every mission.</p></div></div>
+      <section class="hq-project-chat" aria-labelledby="chatTitle">
+        <p class="eyebrow">TALK TO YOUR COMPANY</p><h2 id="chatTitle">What should we work on?</h2>
+        <form id="chatForm"><label class="sr-only" for="chatGoal">Tell Saad what project to start</label><textarea id="chatGoal" maxlength="2000" required placeholder="Let’s get going on this project… Describe what you want finished."></textarea><div class="chat-compose"><label for="chatProject">Project <select id="chatProject"><option value="new">New project workspace</option></select></label><button id="chatSend" class="btn primary" type="submit">Start company project ↗</button></div><label class="chat-auto"><input id="chatAutomatic" type="checkbox" checked required> Let specialists hand off, repair problems, and finish local work automatically.</label></form>
+        <p class="note">Research → plan → build → test → deliver. Time limits continue from saved work. Local problems get a repair specialist automatically, with up to two repairs and two time-limit continuations per stage. Account access, purchases, agreements, publishing and blocked work pause for you.</p><p id="chatReply" role="status"></p><p id="chatConnection" class="micro"></p><div id="chatProjects"></div>
+      </section>
+      <div class="hq-metrics"><div><span class="metric-light"></span><span id="towerConnection">Connecting company…</span><small id="towerCount">Loading residents…</small></div><div><b id="towerRunning">0</b><span>On assignment</span></div><button id="towerReviews" type="button"><b id="towerReview">0</b><span>Awaiting your review ↗</span></button><div><b id="towerReady">0</b><span>Available specialists</span></div></div>
+      <div class="spatial-toolbar"><div class="scene-modes"><button id="sceneTower" class="btn" type="button" aria-pressed="true">Company view</button><button id="sceneExplode" class="btn" type="button" aria-pressed="false">Separate floors</button><button id="sceneFloor" class="btn" type="button" aria-pressed="false">Enter floor</button></div><div class="scene-options"><button id="towerDispatch" class="btn primary" type="button">+ Assign work</button><button id="sceneRotate" class="btn ghost" type="button" aria-pressed="false">Auto orbit</button><button id="sceneLight" class="btn ghost" type="button">Day lighting</button><button id="sceneReset" class="btn ghost" type="button">Reset camera</button><button id="ambientToggle" class="btn ghost" type="button" aria-pressed="false">Pause ambience</button><button id="sceneHelp" class="btn ghost" type="button">Walkthrough</button></div></div>
+      <div class="tower-layout spatial-layout">
+        <aside class="floor-rail"><p class="eyebrow">DEPARTMENTS / FLOOR DIRECTORY</p><div id="floorList" class="floor-list" aria-label="Department floors"></div><p class="micro">Choose a floor to enter its offices. Every resident is connected to the same HQ task queue.</p></aside>
+        <section class="spatial-stage"><div class="scene-caption"><span class="eyebrow">SAAD / DIGITAL COMPANY</span><span id="sceneMode">Glass tower / whole company</span></div><div id="sceneHost" class="scene-host"><p id="sceneLoading" class="scene-loading">Preparing the company model…</p></div><div class="scene-bottom"><span>Drag to orbit · scroll / pinch to zoom · right-drag to pan</span><span>Click a person or monitor</span></div><p id="sceneHealth" class="scene-health" role="status">Waiting for live company data…</p><section id="officeTaskScreen" class="office-task-screen" aria-label="Agent’s live computer" hidden></section></section>
+        <aside id="residentPanel" class="resident-panel" aria-label="Selected specialist"></aside>
+      </div>
+      <section class="floor-stage directory-stage" aria-label="Department offices"><div class="floor-header"><div><p class="eyebrow">PEOPLE / SEARCH & QUICK ACCESS</p><h2 id="floorTitle">Engineering</h2><p id="floorSubtitle" class="note">Loading offices…</p></div><p class="micro">Every office is also represented in the 3D model.</p></div><label class="tower-search" for="towerSearch"><span>⌕</span><input id="towerSearch" aria-label="Search all specialists" type="search" placeholder="Find a person or specialist…"><span class="search-hint">ALL FLOORS</span></label><div id="floorRooms" class="floor-rooms"></div><div class="floor-pagination"><span id="floorPage"></span><div><button id="floorPrev" class="btn ghost" aria-label="Previous offices" type="button">←</button><button id="floorNext" class="btn ghost" aria-label="Next offices" type="button">→</button></div></div><div class="floor-legend"><span><i class="legend-light"></i>Light colors follow actual task state</span><span>Walking and assistant orbs are visual ambience</span></div></section>
+      <div class="command-strip"><section><p class="eyebrow">LIVE ASSIGNMENTS</p><div id="towerActivity"></div></section><section><p class="eyebrow">CONNECTED SYSTEMS</p><div id="runtimeDock" class="runtime-dock"></div><details class="system-detail"><summary>Inspect selected system</summary><aside id="screen" class="screen" aria-live="polite" aria-label="Selected system activity"></aside></details></section></div>
+    </div>
+
+    <div id="rosterView" hidden>
+      <section aria-labelledby="h-roster">
+        <h2 id="h-roster">Your agents</h2>
+        <div id="roster" class="grid"></div>
+      </section>
+      <section aria-labelledby="h-sessions">
+        <h2 id="h-sessions">Claude Code sessions <span class="hint">(view only)</span></h2>
+        <div id="sessions" class="grid small"></div>
+      </section>
+    </div>
+
+    <div id="labView" hidden>
+      <h2>Self-improvement lab</h2>
+      <p class="note lab-intro">An agent may only <b>suggest</b> a better version of its own instructions. It is graded by a fixed exam it cannot edit, including hidden questions it never sees. Nothing changes until <b>you</b> read the difference and approve it, and one click undoes it.</p>
+      <div id="labBody"></div>
+    </div>
+
+    <div id="paperclipView" hidden>
+      <div class="mission-head"><div><p class="sub">PAPERCLIP × AGENCY HQ</p><h2>Your people</h2><p class="note">Find the right person for the job. Search by role or browse a department.</p></div><a id="paperclipOpen" class="btn" target="_blank" rel="noreferrer">Open Paperclip ↗</a></div>
+      <p id="paperclipStatus" class="task-current" role="status">Connecting to Paperclip…</p>
+      <p class="note">HQ manages execution, project access, cancellation, and result approval. Paperclip keeps the company org chart and a mirrored task board. Specialists become active when you assign work from HQ.</p>
+      <section><h3>Connected assignments</h3><div id="paperclipAssignments"></div></section>
+      <section class="skill-library"><h3>Find your specialist</h3><div class="company-filters"><label for="teamSearch">Search the team<input id="teamSearch" type="search" placeholder="Designer, marketing, engineer, QA…"></label><label for="teamDivision">Division<select id="teamDivision"></select></label></div><p id="teamCount" class="note"></p><div id="paperclipRoles" class="grid"></div></section>
+    </div>
+
+    <div id="companyView" hidden>
+      <div class="mission-head"><div><p class="sub">YOUR AGENCY OPERATING SYSTEM</p><h2>One company. Clear owners.</h2><p class="note">Departments → SOPs → real assignments → reviewed handoffs → shared knowledge.</p></div><a id="mapSource" class="btn" target="_blank" rel="noreferrer">Source architecture ↗</a></div>
+      <div id="companyStats" class="task-summary" role="status"></div>
+      <section class="company-conductor"><h3>Conductor desk</h3><p class="note">Describe the outcome. Get a transparent routing suggestion or send a planning assignment to the Company Conductor.</p><label for="conductorGoal">What should your company accomplish?</label><textarea id="conductorGoal" maxlength="2000" placeholder="Example: Build a client onboarding portal with a dashboard and clear acceptance criteria."></textarea><button id="routeGoal" class="btn primary" type="button">Find the right workflow</button><div id="conductorRoute" aria-live="polite"></div></section>
+      <section><h3>Active company workflows</h3><div class="mission-layout"><div id="companyJobs" class="company-jobs" aria-label="Company workflow inbox"></div><div id="companyJobDetail" class="task-detail" aria-label="Company workflow detail"></div></div></section>
+      <details class="skill-library" open><summary>Workflow playbooks</summary><p class="note">Every stage pauses for result approval and an explicit handoff. These prepare drafts and project artifacts; connected publishing and account actions require separate integrations.</p><div id="workflowTemplates" class="grid"></div></details>
+      <details class="skill-library"><summary>Company departments & SOP library</summary><div id="departments" class="department-tabs"></div><div class="company-filters"><label for="roleSearch">Find a specialist<input id="roleSearch" type="search" placeholder="Search roles…"></label><label for="archetypeFilter">Archetype<select id="archetypeFilter"><option value="all">All archetypes</option><option>Scout</option><option>Analyst</option><option>Builder</option><option>Publisher</option><option>Groundskeeper</option><option>Conductor</option></select></label></div><p id="roleCount" class="note"></p><div id="companyRoles" class="grid"></div></details>
+      <section class="skill-library"><h3>Shared brain</h3><p class="note">Project-specific knowledge for future assignments. Save owner notes or approved task results. Active notes are included in agent prompts; no personal vault is scanned.</p><div class="brain-toolbar"><label for="brainProject">Knowledge project<select id="brainProject"></select></label><button id="addBrainNote" class="btn primary" type="button">+ Add knowledge</button><a id="brainExport" class="btn" download="shared-brain.md">Export for Obsidian</a><label><input id="brainArchived" type="checkbox"> Show archived notes</label></div><div id="brainNotes"></div></section>
+    </div>
+
+    <div id="tasksView" hidden>
+      <div class="mission-head"><div><h2>Assignments</h2><p class="note">Give a specialist a task. Watch its work and review the result here.</p></div><button id="newTask" class="btn primary" type="button">+ New task</button></div>
+      <details id="codexToolkit" class="subscription-toolkit"><summary>Your Codex subscription & agent tools</summary><div id="codexToolkitBody"></div></details>
+      <div id="taskSummary" class="task-summary" role="group" aria-label="Filter tasks by status"></div>
+      <details class="skill-library"><summary>Specialists & reusable skills</summary><div id="skillLibrary" class="grid"></div><button id="newSkill" class="btn" type="button">+ Create a skill</button></details>
+      <div class="mission-layout"><section aria-label="Task inbox"><label for="taskFilter">Show tasks</label><select id="taskFilter"><option value="all">All tasks</option><option value="active">Queued & running</option><option value="review">Needs review</option><option value="completed">Completed</option><option value="failed">Failed & interrupted</option></select><div id="taskInbox"></div></section><section id="taskDetail" class="task-detail" aria-label="Selected task"></section></div>
+    </div>
+
+    <div id="bottom" class="two">
+      <section aria-labelledby="h-run">
+        <h2 id="h-run">Hermes task output</h2>
+        <pre id="runOut" class="out">No task yet. Use “Run a task” on the Hermes card or its screen.</pre>
+        <div id="runVerdict" class="btns rv"></div>
+      </section>
+      <section aria-labelledby="h-log">
+        <h2 id="h-log">Activity</h2>
+        <ul id="log" class="log"></ul>
+      </section>
+    </div>
+  </main>
+
+  <dialog id="dlg">
+    <form method="dialog" id="dlgForm">
+      <h3 id="dlgTitle"></h3>
+      <p id="dlgNote" class="note"></p>
+      <div id="dlgFields"></div>
+      <p id="dlgConfirm" class="confirm"></p>
+      <div class="row">
+        <button value="cancel" class="btn ghost" id="dlgCancel" type="button">Cancel</button>
+        <button value="ok" class="btn primary" id="dlgOk" type="submit">Go</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="monitorDlg" class="monitor-dialog" aria-labelledby="monitorTitle"><div class="monitor-heading"><div><p class="eyebrow">AGENT WORKSTATION / LIVE HQ FEED</p><h2 id="monitorTitle">Agent computer</h2></div><button id="closeMonitor" class="btn" type="button">Close</button></div><p id="monitorStatus" class="task-current" role="status"></p><div id="monitorBody"></div><p class="micro">Sanitized tool events and public replies from HQ-managed assignments. This represents the agent’s CLI workstation; external desktop screens and private reasoning are not captured.</p></dialog>
+  <dialog id="tourDlg" class="tour-dialog" aria-labelledby="tourTitle"><p class="eyebrow">WELCOME TO SAAD HEADQUARTERS</p><h2 id="tourTitle">Your company in six steps.</h2><ol class="tour-steps"><li><b>Explore the tower.</b> Drag to rotate, scroll to zoom, and right-drag to pan. Try Separate floors, lighting, or Auto orbit.</li><li><b>Enter a department.</b> Choose a floor in the directory or click its label. Every resident has a personal office.</li><li><b>Meet a specialist.</b> Click a person or use the people search. Focus office brings the camera to their desk.</li><li><b>Watch their computer.</b> Click a monitor or Open workstation. See actual commands, tool events, and public replies as they arrive.</li><li><b>Send work.</b> Choose Assign a task, select a project, access mode and time budget, and describe the deliverable.</li><li><b>Review and remember.</b> Open the result, approve or request changes, then save approved knowledge in Workflows & memory.</li></ol><p class="note">Cyan means running, blue means queued, amber means review, and red means an error or interrupted run. Unassigned specialists are on call. Avatar movement and assistant orbs are decoration.</p><button id="closeTour" class="btn primary" type="button">Explore my headquarters</button></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

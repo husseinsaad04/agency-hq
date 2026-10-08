@@ -1,0 +1,14 @@
+{
+  "name": "agency-hq",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local control room for all my AI agents: live status, easy controls, honest game layer.",
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

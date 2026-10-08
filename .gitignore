@@ -1,0 +1,8 @@
+node_modules/
+*.log
+.DS_Store
+.env
+.env.*
+.claude-flow/
+work/
+.playwright-mcp/

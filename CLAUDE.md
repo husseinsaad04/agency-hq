@@ -1,0 +1,15 @@
+# Agency HQ
+
+Local control room for my AI agents. Zero npm dependencies on purpose (Node 24 built-ins only).
+
+## Rules
+- Bind only 127.0.0.1, never 0.0.0.0. Owner explicitly requested phone controls: optional private Tailscale Serve may proxy HQ, with an exact configured origin and owner identity checked on every proxied request. Never use public Funnel, expose on the LAN, or accept arbitrary forwarded identities/origins. Default remains local only; remote hooks are forbidden.
+- The dashboard is a READ model. The only way to act on an agent is an allowlisted action in `server/actions.js` (fixed argv, validated params, audit-logged). Never add a generic "run this command" action.
+- External Claude sessions: never read or store prompts, transcripts, file contents, `.key` files, tokens or env vars; only pid, session id, cwd, name, status, timestamps and sanitized hook activity. HQ-managed assignments explicitly submitted by the user may store their instructions, public replies and selected tool-event summaries locally for task history. Never capture private reasoning or raw tool-result bodies.
+- Never build inside Jarvis (port 53284). Do not touch AutoClip.
+- Game layer (levels, XP) is derived from verified results only (tests passing, user approval). Never XP for activity counts. It must never feed back into an agent's goals.
+- Run `npm test` after every change. Commit only when the user asks.
+- Task dispatch uses fixed provider executables and validated argv, never a generic shell endpoint. Respect the chosen project and access mode. Never bypass provider permissions. Completed agent execution awaits user review; it is not proof of task quality. Restarted assignments are interrupted and require an explicit retry.
+- Owner-authorized project chat can automatically accept intermediate handoffs, request changes, assign up to two bounded local repair specialists per stage, and rerun the original specialist to verify the repair. Owner-authorized automatic local projects may mark a verified final deliverable as delivered, with optional owner review; this never approves the result on the owner’s behalf. It cannot bypass owner access, provider limits, publishing gates, or permissions. HQ may serve allowlisted static project files on a separate localhost preview without executing project server code or changing worker sandbox permissions. Manual workflows remain explicit. Restart pauses active repairs too.
+- Company knowledge is explicitly project-scoped. Only owner notes and approved task results may be supplied as shared context. Do not import personal vaults or external transcripts implicitly. Company playbooks must wait for an approved task result and an explicit handoff; autonomy labels do not override these gates. Failed/rejected stages must never propagate automatically.
+- Paperclip is a localhost company board with HQ-managed execution. Imported-agent tasks must retain their actual company and agent IDs; only that configured company may be mirrored. Use fixed local API routes and idempotent issue creation. Sync errors must never cancel, approve, or replay HQ work. Never use service data as an agent workspace.
